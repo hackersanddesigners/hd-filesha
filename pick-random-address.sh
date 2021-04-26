@@ -45,6 +45,8 @@ if [ $SIZE -gt 0 ]; then
   IDX=$((RANDOM % $SIZE))
   echo "random pick => ${LISTADDRESS[$IDX]}"
   echo ${LISTADDRESS[$IDX]} >> ./.members
+
+  return ${LISTADDRESS[$IDX]}
 else
   echo "all members have been chosen, list-size is $SIZE"
 fi
