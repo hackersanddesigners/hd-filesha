@@ -1,4 +1,5 @@
 LIST=$1
+
 # TODO add check in case $LIST is empty string or not being passed
 
 # save to variable list of address from specified mlmmj-list
@@ -8,21 +9,40 @@ LIST=$1
 # - we can wrap this value directly inside an array `R=()`, and let bash array
 #   to split the string by empty space
 
-LISTADDRESS=($(sudo /usr/bin/mlmmj-list -L /var/spool/mlmmj/$LIST))
+ORIGINLIST=($(sudo /usr/bin/mlmmj-list -L /var/spool/mlmmj/$LIST))
+
+# loop over full member-list and create a new array with members
+# not found in ./members; those have been randomly chosen already
+# fairly dumb approach but works fine
+
+CHOSEN=$(<./.members)
+
+echo $CHOSEN
+
+LISTADDRESS=()
+for member in "${ORIGINLIST[@]}"; do
+  
+  # check if current member is present in $CHOSEN
+  # see <https://stackoverflow.com/a/231298>
+  if [[ $CHOSEN =~ $member ]]; then
+    echo "skip item => $member"
+  else
+    LISTADDRESS+=($member)
+    echo "add item => $member"
+  fi
+   
+done
+
+# pick a random member from the list
+# and append it do .members
+# -gt => greater than; see <https://askubuntu.com/a/1042664>
 SIZE=${#LISTADDRESS[@]}
 
-echo "member 0 => ${LISTADDRESS[0]}"
-echo "member 1 => ${LISTADDRESS[1]}"
-echo "etc, of total $SIZE members..."
-
-# pick random item from list
-# keep track if item has already been picked before
-
-IDX1=$(($RANDOM % $SIZE))
-IDX2=$(($RANDOM % $SIZE -1))
-
-if [ "$IDX2" = "$IDX1" ] ; then
-  IDX2=$N1+1
+if [ $SIZE -gt 0 ]; then
+  IDX=$((RANDOM % $SIZE))
+  echo "random pick => ${LISTADDRESS[$IDX]}"
+  echo ${LISTADDRESS[$IDX]} >> ./.members
+else
+  echo "all members have been chosen, list-size is $SIZE"
 fi
 
-echo "random pick => ${LISTADDRESS[$IDX2]}"
