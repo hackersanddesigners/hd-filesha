@@ -1,3 +1,6 @@
+#!/bin/bash
+
+
 LIST=$1
 
 # TODO add check in case $LIST is empty string or not being passed
