@@ -1,0 +1,26 @@
+#!/bin/bash
+
+LIST=$1
+
+ORIGINLIST=($(sudo /usr/bin/mlmmj-list -L /var/spool/mlmmj/$LIST))
+
+# loop over full member-list and create a new array with members
+# not found in ./members; those have been randomly chosen already
+# fairly dumb approach but works fine
+
+CHOSEN=$(<./.members)
+
+LISTADDRESS=()
+for member in "${ORIGINLIST[@]}"; do
+  
+  # check if current member is NOT present in $CHOSEN (use `!`)
+  # see <https://stackoverflow.com/a/231298>
+  if [[ ! $CHOSEN =~ $member ]]; then
+    LISTADDRESS+=($member)
+  fi
+   
+done
+
+SIZE=${#LISTADDRESS[@]}
+echo "$SIZE"
+
