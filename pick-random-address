@@ -20,18 +20,13 @@ ORIGINLIST=($(sudo /usr/bin/mlmmj-list -L /var/spool/mlmmj/$LIST))
 
 CHOSEN=$(<./.members)
 
-echo $CHOSEN
-
 LISTADDRESS=()
 for member in "${ORIGINLIST[@]}"; do
   
-  # check if current member is present in $CHOSEN
+  # check if current member is NOT present in $CHOSEN (use `!`)
   # see <https://stackoverflow.com/a/231298>
-  if [[ $CHOSEN =~ $member ]]; then
-    echo "skip item => $member"
-  else
+  if [[ ! $CHOSEN =~ $member ]]; then
     LISTADDRESS+=($member)
-    echo "add item => $member"
   fi
    
 done
@@ -43,11 +38,10 @@ SIZE=${#LISTADDRESS[@]}
 
 if [ $SIZE -gt 0 ]; then
   IDX=$((RANDOM % $SIZE))
-  echo "random pick => ${LISTADDRESS[$IDX]}"
-  echo ${LISTADDRESS[$IDX]} >> ./.members
 
-  return ${LISTADDRESS[$IDX]}
+  echo ${LISTADDRESS[$IDX]} >> ./.members
+  echo ${LISTADDRESS[$IDX]}
 else
-  echo "all members have been chosen, list-size is $SIZE"
+  echo "$SIZE"
 fi
 
