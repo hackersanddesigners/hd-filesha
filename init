@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# create file to keep track of chosen members
+if [ ! -f ./.members ]; then
+  touch ./.members
+fi
+
+# create moderation folder where to move emails
+# from `<mlmmj>/<list>/moderation`
+if [ ! -d ./moderation ]; then
+  mkdir ./moderation
+fi
+
