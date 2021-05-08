@@ -80,7 +80,7 @@ else
       	  echo "Next contributor => $CONTRIBUTOR_NEXT" 
     
       	  # replace `From:` and `To:` addresses
-      	  sed -i "s/^From: .*$/From: <filesha@lists.hackersanddesigners.nl>/" "./moderation/$EMAIL_FN"
+      	  sed -i "s/^From: .*$/From: <$SENDER>/" "./moderation/$EMAIL_FN"
       	  sed -i "s/^To: .*$/To: $CONTRIBUTOR_NEXT/" "./moderation/$EMAIL_FN"
     
       	  # and send email to this address
@@ -101,7 +101,7 @@ else
       mv $EMAIL_PATH ./moderation/.
     
       # replace `From:` and `To:` addresses
-      sed -i "s/^From: .*$/From: <filesha@lists.hackersanddesigners.nl>/" "./moderation/$EMAIL_FN"
+      sed -i "s/^From: .*$/From: <$SENDER>/" "./moderation/$EMAIL_FN"
       sed -i "s/^To: .*$/To: $CONTRIBUTOR_NEXT/" "./moderation/$EMAIL_FN"
     
       # and send email to this address
