@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LIST_PATH='/var/spool/mlmmj/filesha'
+LIST_PATH=$1
 
 
 # run init script
