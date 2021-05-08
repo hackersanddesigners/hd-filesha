@@ -1,0 +1,119 @@
+#!/bin/bash
+
+LIST_PATH='/var/spool/mlmmj/filesha'
+
+
+# run init script
+./init
+
+
+# check if there's any email held in /moderation
+# we could check if $EMAIL_FN is an empty string,
+# but it seems like eagerly asking for more troubles
+MOD_N=$(ls "$LIST_PATH/moderation" | wc -l)
+
+if [ "$MOD_N" == "0" ]; then
+
+    echo "no email held in moderation, checking subscribers list..."
+    CHOSEN_SIZE=$(./check-member filesha) 
+
+    if [ "$CHOSEN_SIZE" == "0" ]; then
+      echo "game over! all subscribers have been chosen as list contributors!"
+
+    else
+      # something might have happen, eg contributor did not send email within
+      # x-time, or other things...
+      # move on with the next contributor, if any is left
+      # check latest email received, which we moved to ./moderation/
+      # send message to next chosen contributor, and pray the gods
+
+      EMAIL_FN=$(ls -t "./moderation" | head -n1)
+      EMAIL_PATH="./moderation/$EMAIL_FN"
+
+      MEMBERS_LAST=$(tail -n1 .members)
+     
+      # pick next contributor
+      CONTRIBUTOR_NEXT=$(./pick-random-address filesha)
+      echo "Next contributor => $CONTRIBUTOR_NEXT" 
+     
+      # replace `To:` address
+      sed -i "s/^To: .*$/To: $CONTRIBUTOR_NEXT/" $EMAIL_PATH
+     
+      # and send email to this address
+      sendmail -t $CONTRIBUTOR_NEXT < $EMAIL_PATH
+     
+    fi
+
+else
+    # at least one message is present in `<mlmmj>/<list>/moderation`
+
+    # fetch latest submitted email filename
+    # <https://stackoverflow.com/a/1015687>
+    EMAIL_FN=$(ls -t "$LIST_PATH/moderation" | head -n1)
+    EMAIL_PATH="$LIST_PATH/moderation/$EMAIL_FN"
+    
+    MEMBERS_LAST=$(tail -n1 .members)
+    FROM=$(sed -n 's/^From:.*<\(.*\)>$/\1/p' $EMAIL_PATH)
+
+    #SENDER="H&D FileSHA <$(less "$LIST_PATH/control/listaddress")>"
+    SENDER=$(less "$LIST_PATH/control/listaddress")
+
+    # check if $MEMBERS_LAST is empty string (eg no contributor has been chosen yet)
+    if [ -z "$MEMBERS_LAST" ]; then
+
+	# check if it is the first message in the chain
+	# by checking list of chosen members
+      	CHOSEN=$(<./.members)    
+      	CHOSEN_SIZE=${#CHOSEN[@]}
+
+      	# check if list of chosen members equals to 1
+      	if [ $CHOSEN_SIZE -eq 1 ]; then
+
+	  # mv file out of /moderation to current dir
+      	  mv $EMAIL_PATH ./moderation/.
+
+      	  # add address from first received email to chosen list
+      	  echo "$FROM" >> ./.members
+
+      	  # pick next contributor
+      	  CONTRIBUTOR_NEXT=$(./pick-random-address filesha)
+      	  echo "Next contributor => $CONTRIBUTOR_NEXT" 
+    
+      	  # replace `From:` and `To:` addresses
+      	  sed -i "s/^From: .*$/From: <filesha@lists.hackersanddesigners.nl>/" "./moderation/$EMAIL_FN"
+      	  sed -i "s/^To: .*$/To: $CONTRIBUTOR_NEXT/" "./moderation/$EMAIL_FN"
+    
+      	  # and send email to this address
+      	  sendmail -t $CONTRIBUTOR_NEXT < "./moderation/$EMAIL_FN"
+
+	else
+	  echo "something went particularly wrong, exit"
+	  exit 1
+	fi
+    
+    elif [ "$MEMBERS_LAST" == "$FROM" ]; then
+    
+      # pick next contributor
+      CONTRIBUTOR_NEXT=$(./pick-random-address filesha)
+      echo "Next contributor => $CONTRIBUTOR_NEXT" 
+    
+      # mv file out of /moderation to current dir
+      mv $EMAIL_PATH ./moderation/.
+    
+      # replace `From:` and `To:` addresses
+      sed -i "s/^From: .*$/From: <filesha@lists.hackersanddesigners.nl>/" "./moderation/$EMAIL_FN"
+      sed -i "s/^To: .*$/To: $CONTRIBUTOR_NEXT/" "./moderation/$EMAIL_FN"
+    
+      # and send email to this address
+      sendmail -t $CONTRIBUTOR_NEXT < "./moderation/$EMAIL_FN"
+    
+    else
+      echo "$MEMBERS_LAST differs from $FROM"
+
+      # send email error
+      EMAIL_HELP=$(head -n1 ./.email-help)
+      echo "$MEMBERS_LAST differs from $FROM" | sendmail -s "H&D FileSHA error" -t $EMAIL_HELP
+
+    fi
+
+fi
