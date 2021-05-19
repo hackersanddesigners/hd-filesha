@@ -38,14 +38,20 @@ if [ "$MOD_N" == "0" ]; then
       MEMBERS_LAST=$(tail -n1 .members)
      
       # pick next contributor
-      CONTRIBUTOR_NEXT=$(./pick-random-address filesha)
-      echo "Next contributor => $CONTRIBUTOR_NEXT" 
+      CONTRIBUTOR_NEXT=$(./pick-random-address $LIST_NAME)
+      echo "Next contributor (1) => $CONTRIBUTOR_NEXT" 
+
+      # `-o` is the OR operator
+      if [ "$CHOSEN_SIZE" == "0" -o -z "$CONTRIBUTOR_NEXT" ]; then
+	echo "An error happened; the chain order broke probably due to a mismatch in the .member list; please check!"
+      else
      
-      # replace `To:` address
-      sed -i "s/^To: .*$/To: $CONTRIBUTOR_NEXT/" $EMAIL_PATH
-     
-      # and send email to this address
-      sendmail -t $CONTRIBUTOR_NEXT < $EMAIL_PATH
+        # replace `To:` address
+        sed -i "s/^To: .*$/To: $CONTRIBUTOR_NEXT/" $EMAIL_PATH
+
+        # and send email to this address
+        sendmail -t $CONTRIBUTOR_NEXT < $EMAIL_PATH
+      fi
      
     fi
 
@@ -81,8 +87,8 @@ else
       	  echo "$FROM" >> ./.members
 
       	  # pick next contributor
-      	  CONTRIBUTOR_NEXT=$(./pick-random-address filesha)
-      	  echo "Next contributor => $CONTRIBUTOR_NEXT" 
+      	  CONTRIBUTOR_NEXT=$(./pick-random-address $LIST_NAME)
+	  echo "Next contributor (2) => $CONTRIBUTOR_NEXT" 
     
       	  # replace `From:` and `To:` addresses
       	  sed -i "s/^From: .*$/From: <$SENDER>/" "./moderation/$EMAIL_FN"
@@ -99,18 +105,24 @@ else
     elif [ "$MEMBERS_LAST" == "$FROM" ]; then
     
       # pick next contributor
-      CONTRIBUTOR_NEXT=$(./pick-random-address filesha)
-      echo "Next contributor => $CONTRIBUTOR_NEXT" 
+      CONTRIBUTOR_NEXT=$(./pick-random-address $LIST_NAME)
+
+      # `-o` is the OR operator
+      if [ "$CHOSEN_SIZE" == "0" -o -z "$CONTRIBUTOR_NEXT" ]; then
+        echo "An error happened; the chain order broke probably due to a mismatch in the .member list; please check!"
+      else
+        echo "Next contributor (3) => $CONTRIBUTOR_NEXT" 
     
-      # mv file out of /moderation to current dir
-      mv $EMAIL_PATH ./moderation/.
+        # mv file out of /moderation to current dir
+        mv $EMAIL_PATH ./moderation/.
     
-      # replace `From:` and `To:` addresses
-      sed -i "s/^From: .*$/From: <$SENDER>/" "./moderation/$EMAIL_FN"
-      sed -i "s/^To: .*$/To: $CONTRIBUTOR_NEXT/" "./moderation/$EMAIL_FN"
+        # replace `From:` and `To:` addresses
+        sed -i "s/^From: .*$/From: <$SENDER>/" "./moderation/$EMAIL_FN"
+        sed -i "s/^To: .*$/To: $CONTRIBUTOR_NEXT/" "./moderation/$EMAIL_FN"
     
-      # and send email to this address
-      sendmail -t $CONTRIBUTOR_NEXT < "./moderation/$EMAIL_FN"
+        # and send email to this address
+        sendmail -t $CONTRIBUTOR_NEXT < "./moderation/$EMAIL_FN"
+     fi
     
     else
       echo "$MEMBERS_LAST differs from $FROM"
