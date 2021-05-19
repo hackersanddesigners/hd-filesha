@@ -18,7 +18,14 @@ if [ "$MOD_N" == "0" ]; then
     CHOSEN_SIZE=$(./check-member filesha) 
 
     if [ "$CHOSEN_SIZE" == "0" ]; then
-      echo "game over! all subscribers have been chosen as list contributors!"
+      GAME_OVER="game over! all subscribers have been chosen as list contributors!"
+      echo $GAME_OVER
+
+      # read moderator email list from file and break multiline text into one line
+      # (this is how `mailx` receives multiple recipients
+      MODERATORS=$(tr '\n' ' ' < "$LIST_PATH/control/owner")
+
+      echo $GAME_OVER | mailx -a "From: H&D Filesha <filesha@lists.hackersanddesigners.nl>" -s "[H&D Filesha]: Error" $MODERATORS
 
     else
       # something might have happen, eg contributor did not send email within
@@ -111,8 +118,8 @@ else
       echo "$MEMBERS_LAST differs from $FROM"
 
       # send email error
-      EMAIL_HELP=$(head -n1 ./.email-help)
-      echo "$MEMBERS_LAST differs from $FROM" | sendmail -s "H&D FileSHA error" -t $EMAIL_HELP
+      MODERATORS=$(tr '\n' ' ' < "$LIST_PATH/control/owner")
+      echo "$MEMBERS_LAST differs from $FROM" | mailx -a "From: H&D Filesha <filesha@lists.hackersanddesigners.nl>" -s "[H&D Filesha]: Error" $MODERATORS
 
     fi
 
