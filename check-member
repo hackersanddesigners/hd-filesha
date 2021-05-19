@@ -1,8 +1,7 @@
 #!/bin/bash
 
-LIST=$1
-
-ORIGINLIST=($(sudo /usr/bin/mlmmj-list -L /var/spool/mlmmj/$LIST))
+LIST_NAME=$1
+ORIGINLIST=($(sudo /usr/bin/mlmmj-list -L /var/spool/mlmmj/$LIST_NAME))
 
 # loop over full member-list and create a new array with members
 # not found in ./members; those have been randomly chosen already

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 LIST_PATH=$1
-
+LIST_NAME=$(basename $LIST_PATH)
 
 # run init script
 ./init
@@ -15,12 +15,10 @@ MOD_N=$(ls "$LIST_PATH/moderation" | wc -l)
 if [ "$MOD_N" == "0" ]; then
 
     echo "no email held in moderation, checking subscribers list..."
-    CHOSEN_SIZE=$(./check-member filesha) 
+    CHOSEN_SIZE=$(./check-member $LIST_NAME) 
 
     if [ "$CHOSEN_SIZE" == "0" ]; then
       GAME_OVER="game over! all subscribers have been chosen as list contributors!"
-      echo $GAME_OVER
-
       # read moderator email list from file and break multiline text into one line
       # (this is how `mailx` receives multiple recipients
       MODERATORS=$(tr '\n' ' ' < "$LIST_PATH/control/owner")
