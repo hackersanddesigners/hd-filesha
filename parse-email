@@ -3,10 +3,6 @@
 LIST_PATH=$1
 LIST_NAME=$(basename $LIST_PATH)
 
-# run init script
-./init
-
-
 # check if there's any email held in /moderation
 # we could check if $EMAIL_FN is an empty string,
 # but it seems like eagerly asking for more troubles
@@ -66,7 +62,6 @@ else
     MEMBERS_LAST=$(tail -n1 .members)
     FROM=$(sed -n 's/^From:.*<\(.*\)>$/\1/p' $EMAIL_PATH)
 
-    #SENDER="H&D FileSHA <$(less "$LIST_PATH/control/listaddress")>"
     SENDER=$(less "$LIST_PATH/control/listaddress")
 
     # check if $MEMBERS_LAST is empty string (eg no contributor has been chosen yet)
