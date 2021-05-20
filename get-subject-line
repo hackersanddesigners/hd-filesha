@@ -1,5 +1,7 @@
 #!/bin/bash
 
+LIST_PATH=$1
+
 # <https://stackoverflow.com/a/21459863>
 # keep original IFS Setting
 IFS_BAK=${IFS}
@@ -26,7 +28,7 @@ else
 fi
 
   FILE="./templates/help"
-  OUTPUT_FILE="/var/spool/mlmmj/filesha/text/help"
+  OUTPUT_FILE="$LIST_PATH/text/help"
   
   # <https://www.baeldung.com/linux/insert-line-specific-line-number>
   # use () instead of {} to group shell commands, as for some reasons using {} would add some numbers right before the at-line insertion (<https://ss64.com/bash/syntax-brackets.html>, <https://www.gnu.org/software/bash/manual/html_node/Command-Grouping.html>)

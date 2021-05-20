@@ -86,7 +86,7 @@ else
       	  echo "$FROM" >> ./.members
 
 	  # update list of file-sharing methods shared so far
-	  ./get-subject-line
+	  ./get-subject-line $LIST_PATH
 
       	  # pick next contributor
       	  CONTRIBUTOR_NEXT=$(./pick-random-address $LIST_NAME)
@@ -132,7 +132,7 @@ else
         mv $EMAIL_PATH ./moderation/.
 
 	# update list of file-sharing methods shared so far
-	./get-subject-line
+	./get-subject-line $LIST_PATH
     
         # replace `From:` and `To:` addresses
         sed -i "s/^From: .*$/From: <$SENDER>/" "./moderation/$EMAIL_FN"
