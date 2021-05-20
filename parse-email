@@ -3,6 +3,9 @@
 LIST_PATH=$1
 LIST_NAME=$(basename $LIST_PATH)
 
+LIST_SENDER=$(<./.list-sender)
+LIST_PREFIX=$(<$LIST_PATH/control/prefix)
+
 # check if there's any email held in /moderation
 # we could check if $EMAIL_FN is an empty string,
 # but it seems like eagerly asking for more troubles
@@ -22,7 +25,7 @@ if [ "$MOD_N" == "0" ]; then
       # (this is how `mailx` receives multiple recipients
       MODERATORS=$(tr '\n' ' ' < "$LIST_PATH/control/owner")
 
-      echo $GAME_OVER | mailx -a "From: H&D Filesha <filesha@lists.hackersanddesigners.nl>" -s "[H&D Filesha]: Error" $MODERATORS
+      echo $GAME_OVER | mailx -a "From: $LIST_SENDER" -s "$LIST_PREFIX Error" $MODERATORS
 
     else
       # something might have happen, eg contributor did not send email within
@@ -123,7 +126,7 @@ else
 	# (this is how `mailx` receives multiple recipients
       	MODERATORS=$(tr '\n' ' ' < "$LIST_PATH/control/owner")
 
-	echo $GAME_OVER | mailx -a "From: H&D Filesha <filesha@lists.hackersanddesigners.nl>" -s "[H&D Filesha]: Error" $MODERATORS
+	echo $GAME_OVER | mailx -a "From: $LIST_SENDER" -s "$LIST_PREFIX Error" $MODERATORS
 
       else
         echo "Next contributor (3) => $CONTRIBUTOR_NEXT" 
@@ -147,7 +150,8 @@ else
 
       # send email error
       MODERATORS=$(tr '\n' ' ' < "$LIST_PATH/control/owner")
-      echo "$MEMBERS_LAST differs from $FROM" | mailx -a "From: H&D Filesha <filesha@lists.hackersanddesigners.nl>" -s "[H&D Filesha]: Error" $MODERATORS
+
+      echo "$MEMBERS_LAST differs from $FROM" | mailx -a "From: $LIST_SENDER" -s "$LIST_PREFIX Error" $MODERATORS
 
     fi
 
