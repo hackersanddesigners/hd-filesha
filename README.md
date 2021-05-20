@@ -31,6 +31,3 @@ the `init` script (called in `parse-email`), creates
 
   - a file `.members` (tracking chosen subscribers)
   - a folder `moderation`, where incoming emails landing in `<mlmmj>/<lists>/moderation` are being moved to so to clear the queu for `mlmmj`
-
-a file `.email-help` holds an email address that `parse-email` uses in case of problems. not sure.
-
