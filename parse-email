@@ -110,8 +110,21 @@ else
       CONTRIBUTOR_NEXT=$(./pick-random-address $LIST_NAME)
 
       # `-o` is the OR operator
-      if [ "$CHOSEN_SIZE" == "0" -o -z "$CONTRIBUTOR_NEXT" ]; then
+      if [ -z "$CONTRIBUTOR_NEXT" ]; then
         echo "An error happened; the chain order broke probably due to a mismatch in the .member list; please check!"
+
+      elif [ "$CONTRIBUTOR_NEXT" == "0" ]; then
+
+        GAME_OVER="game over! all subscribers have been chosen as list contributors!"
+
+	echo $GAME_OVER
+
+	# read moderator email list from file and break multiline text into one line
+	# (this is how `mailx` receives multiple recipients
+      	MODERATORS=$(tr '\n' ' ' < "$LIST_PATH/control/owner")
+
+	echo $GAME_OVER | mailx -a "From: H&D Filesha <filesha@lists.hackersanddesigners.nl>" -s "[H&D Filesha]: Error" $MODERATORS
+
       else
         echo "Next contributor (3) => $CONTRIBUTOR_NEXT" 
     
