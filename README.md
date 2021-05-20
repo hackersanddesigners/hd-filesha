@@ -39,16 +39,16 @@ the `init` script is called the first time the program runs (`./parse-email`). b
   - copy and rename `.list-sender.sample` to `.list-sender`, and set the desired email name and address
   - the `templates/` folder contains an example of mlmmj's Help template: this template is used by `get-subject-line` to update the list of "shared file-sharing methods"; all it does, is grepping through all the email received and retrieve the Subject line of each, then update the Help template accordingly; one could use this to update the Help or FAQ template
 
-following, custom *control* settings in use for this mailing list (:
+following, custom *control* settings in use for this mailing list (eg `/var/spool/mlmmj/<list>/control`, see [docs](http://mlmmj.org/docs/tunables/)):
 
-- customheaders:
-  - List-Subscribe: <mailto:listname+subscribe@lists.domain.nl>,
-  - List-Unsubscribe: <mailto:listname+unsubscribe@lists.domain.nl>
+- `customheaders`:
+  - `List-Subscribe`: <mailto:listname+subscribe@lists.domain.nl>,
+  - `List-Unsubscribe`: <mailto:listname+unsubscribe@lists.domain.nl>
   - these two custom headers tell email programs to display to the user a banner / UI element so that they can directly subscribe / unsubscribe from the list
-- footer: custom footer including how to unsubcribe from the list
-- moderated: "boolean", eg mlmmj knows this is a moderated list
-- moderators: email address list of moderators
-- notifymod: "boolean", mlmmj notifies moderators of any list activity
-- notifysub: "boolean", mlmmj notifes list subscribers of things (for eg when they post to the list that their message was received and waiting for approval)
-- prefix: prefix to include at the beginning of the Subject line when someone posts to the list
-- subonlypost
+- `footer`: custom footer including how to unsubcribe from the list
+- `moderated`: *boolean*, eg mlmmj knows this is a moderated list
+- `moderators`: email address list of moderators
+- `notifymod`: *boolean*, mlmmj notifies moderators of any list activity
+- `notifysub`: *boolean*, mlmmj notifes list subscribers of things (for eg when they post to the list that their message was received and waiting for approval)
+- `prefix`: prefix to include at the beginning of the Subject line when someone posts to the list
+- `subonlypost`: mlmmj allows only list subscribers to post to the list
