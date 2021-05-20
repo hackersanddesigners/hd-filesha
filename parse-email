@@ -6,6 +6,10 @@ LIST_NAME=$(basename $LIST_PATH)
 LIST_SENDER=$(<./.list-sender)
 LIST_PREFIX=$(<$LIST_PATH/control/prefix)
 
+# init
+# this initializes the program only if necessary
+./init
+
 # check if there's any email held in /moderation
 # we could check if $EMAIL_FN is an empty string,
 # but it seems like eagerly asking for more troubles
