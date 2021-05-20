@@ -6,6 +6,8 @@ LIST_NAME=$(basename $LIST_PATH)
 LIST_SENDER=$(<./.list-sender)
 LIST_PREFIX=$(<$LIST_PATH/control/prefix)
 
+GAME_OVER="game over! all subscribers have been chosen as list contributors!"
+
 # init
 # this initializes the program only if necessary
 ./init
@@ -21,7 +23,6 @@ if [ "$MOD_N" == "0" ]; then
     CHOSEN_SIZE=$(./check-member $LIST_NAME) 
 
     if [ "$CHOSEN_SIZE" == "0" ]; then
-      GAME_OVER="game over! all subscribers have been chosen as list contributors!"
 
       echo $GAME_OVER
 
@@ -29,7 +30,7 @@ if [ "$MOD_N" == "0" ]; then
       # (this is how `mailx` receives multiple recipients
       MODERATORS=$(tr '\n' ' ' < "$LIST_PATH/control/owner")
 
-      echo $GAME_OVER | mailx -a "From: $LIST_SENDER" -s "$LIST_PREFIX Error" $MODERATORS
+      echo $GAME_OVER | mailx -a "From: $LIST_SENDER" -s "$LIST_PREFIX Game Over" $MODERATORS
 
     else
       # something might have happen, eg contributor did not send email within
@@ -122,15 +123,13 @@ else
 
       elif [ "$CONTRIBUTOR_NEXT" == "0" ]; then
 
-        GAME_OVER="game over! all subscribers have been chosen as list contributors!"
-
 	echo $GAME_OVER
 
 	# read moderator email list from file and break multiline text into one line
 	# (this is how `mailx` receives multiple recipients
       	MODERATORS=$(tr '\n' ' ' < "$LIST_PATH/control/owner")
 
-	echo $GAME_OVER | mailx -a "From: $LIST_SENDER" -s "$LIST_PREFIX Error" $MODERATORS
+	echo $GAME_OVER | mailx -a "From: $LIST_SENDER" -s "$LIST_PREFIX Game Over" $MODERATORS
 
       else
         echo "Next contributor (3) => $CONTRIBUTOR_NEXT" 
