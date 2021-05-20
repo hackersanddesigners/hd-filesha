@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# <https://stackoverflow.com/a/21459863>
+# keep original IFS Setting
+IFS_BAK=${IFS}
+# note the line break between the two quotes, do not add any whitespace, 
+# just press enter and close the quotes (escape sequence "\n" for newline won't do)
+
+IFS="
+"
+
+LINES=($(sudo grep -h "^Subject:" moderation/*))
+
+# set IFS back to normal..
+IFS=${IFS_BAK}
+
+FILE="./templates/help"
+OUTPUT_FILE="/var/spool/mlmmj/filesha/text/help"
+
+# <https://www.baeldung.com/linux/insert-line-specific-line-number>
+# use () instead of {} to group shell commands, as for some reasons using {} would add some numbers right before the at-line insertion (<https://ss64.com/bash/syntax-brackets.html>, <https://www.gnu.org/software/bash/manual/html_node/Command-Grouping.html>)
+
+( head -n 6 $FILE; for LINE in "${LINES[@]}"; do echo "$LINE"; done; tail -n +7 $FILE; ) > $OUTPUT_FILE
