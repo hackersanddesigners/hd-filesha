@@ -9,15 +9,27 @@ IFS_BAK=${IFS}
 IFS="
 "
 
-LINES=($(sudo grep -h "^Subject:" moderation/*))
+# check if there's any file to grep through
+MSG_N=$(ls "./moderation" | wc -l)
 
-# set IFS back to normal..
-IFS=${IFS_BAK}
+if [ "$MSG_N" == "0" ]; then
+  LINE="No file-sharing method has been shared yet."
+  echo $LINE
+  LINES=($LINE)
 
-FILE="./templates/help"
-OUTPUT_FILE="/var/spool/mlmmj/filesha/text/help"
+else
+  LINES=($(sudo grep -h "^Subject:" moderation/*))
+  
+  # set IFS back to normal..
+  IFS=${IFS_BAK}
+  
+fi
 
-# <https://www.baeldung.com/linux/insert-line-specific-line-number>
-# use () instead of {} to group shell commands, as for some reasons using {} would add some numbers right before the at-line insertion (<https://ss64.com/bash/syntax-brackets.html>, <https://www.gnu.org/software/bash/manual/html_node/Command-Grouping.html>)
+  FILE="./templates/help"
+  OUTPUT_FILE="/var/spool/mlmmj/filesha/text/help"
+  
+  # <https://www.baeldung.com/linux/insert-line-specific-line-number>
+  # use () instead of {} to group shell commands, as for some reasons using {} would add some numbers right before the at-line insertion (<https://ss64.com/bash/syntax-brackets.html>, <https://www.gnu.org/software/bash/manual/html_node/Command-Grouping.html>)
+  
+  ( head -n 6 $FILE; for LINE in "${LINES[@]}"; do echo "$LINE"; done; tail -n +7 $FILE; ) > $OUTPUT_FILE
 
-( head -n 6 $FILE; for LINE in "${LINES[@]}"; do echo "$LINE"; done; tail -n +7 $FILE; ) > $OUTPUT_FILE
