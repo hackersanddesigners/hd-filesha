@@ -35,7 +35,7 @@ if [ "$MOD_N" == "0" ]; then
 
       	echo $GAME_OVER 
 	touch ./.game-over
-      	echo $GAME_OVER | mailx -a "From: $LIST_SENDER" -s "$LIST_PREFIX Game Over" $MODERATORS
+      	echo "$GAME_OVER" | mailx -a "From: $LIST_SENDER" -s "$LIST_PREFIX Game Over" $MODERATORS
 
       fi
 
@@ -50,7 +50,7 @@ if [ "$MOD_N" == "0" ]; then
       if [ -z "$EMAIL_FN" ]; then
 
 	echo "$ERROR_NOPOST"
-	echo $"$ERROR_NOPOST" | mailx -a "From: $LIST_SENDER" -s "$LIST_PREFIX Error: no post" $MODERATORS
+	echo "$ERROR_NOPOST" | mailx -a "From: $LIST_SENDER" -s "$LIST_PREFIX Error: no post" $MODERATORS
 
 	exit 1
 
