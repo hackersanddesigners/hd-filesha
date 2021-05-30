@@ -56,21 +56,26 @@ if [ "$MOD_N" == "0" ]; then
 
         MEMBERS_LAST=$(tail -n1 .members)
      
-      # pick next contributor
-      CONTRIBUTOR_NEXT=$(./pick-random-address $LIST_NAME)
-      echo "Next contributor (1) => $CONTRIBUTOR_NEXT" 
+        # pick next contributor
+        CONTRIBUTOR_NEXT=$(./pick-random-address $LIST_NAME)
+        echo "Next contributor (1) => $CONTRIBUTOR_NEXT" 
 
-      # `-o` is the OR operator
-      if [ "$CHOSEN_SIZE" == "0" -o -z "$CONTRIBUTOR_NEXT" ]; then
-	echo "An error happened; the chain order broke probably due to a mismatch in the .member list; please check!"
+        # `-o` is the OR operator
+        if [ "$CHOSEN_SIZE" == "0" -o -z "$CONTRIBUTOR_NEXT" ]; then
+          echo "$ERROR_CHAIN"
 
-      else
+          # send email error
+          echo "$ERROR_CHAIN" | mailx -a "From: $LIST_SENDER" -s "$LIST_PREFIX Error" $MODERATORS
+
+        else
      
-        # replace `To:` address
-        sed -i "s/^To: .*$/To: $CONTRIBUTOR_NEXT/" $EMAIL_PATH
+          # replace `To:` address
+          sed -i "s/^To: .*$/To: $CONTRIBUTOR_NEXT/" $EMAIL_PATH
 
-        # and send email to this address
-        sendmail -t $CONTRIBUTOR_NEXT < $EMAIL_PATH
+          # and send email to this address
+          /usr/sbin/sendmail -t $CONTRIBUTOR_NEXT < $EMAIL_PATH
+
+        fi
       fi
      
     fi
@@ -112,12 +117,12 @@ else
       	  CONTRIBUTOR_NEXT=$(./pick-random-address $LIST_NAME)
 	  echo "Next contributor (2) => $CONTRIBUTOR_NEXT" 
     
-      	  # replace `From:` and `To:` addresses
+	  # replace `From:` and `To:` addresses
       	  sed -i "s/^From: .*$/From: <$SENDER>/" "./moderation/$EMAIL_FN"
       	  sed -i "s/^To: .*$/To: $CONTRIBUTOR_NEXT/" "./moderation/$EMAIL_FN"
     
       	  # and send email to this address
-      	  sendmail -t $CONTRIBUTOR_NEXT < "./moderation/$EMAIL_FN"
+      	  /usr/sbin/sendmail -t $CONTRIBUTOR_NEXT < "./moderation/$EMAIL_FN"
 
 	else
 	  echo "something went particularly wrong, exit"
@@ -152,12 +157,13 @@ else
 	# update list of file-sharing methods shared so far
 	./get-subject-line $LIST_PATH
     
-        # replace `From:` and `To:` addresses
+	# replace `From:` and `To:` addresses
         sed -i "s/^From: .*$/From: <$SENDER>/" "./moderation/$EMAIL_FN"
         sed -i "s/^To: .*$/To: $CONTRIBUTOR_NEXT/" "./moderation/$EMAIL_FN"
     
         # and send email to this address
-        sendmail -t $CONTRIBUTOR_NEXT < "./moderation/$EMAIL_FN"
+        /usr/sbin/sendmail -t $CONTRIBUTOR_NEXT < "./moderation/$EMAIL_FN"
+
      fi
     
     else
