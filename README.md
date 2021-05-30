@@ -34,10 +34,34 @@ ahem, running with sudo because need to interact with `mlmmj` files and using po
 
 ## setup
 
+### script
+
 run `./init` before calling the main program (`parse-email`). then:
 
   - copy and rename `.list-sender.sample` to `.list-sender`, and set the desired email name and address
   - the `templates/` folder contains an example of mlmmj's Help template: this template is used by `get-subject-line` to update the list of "shared file-sharing methods"; all it does, is grepping through all the email received and retrieve the Subject line of each, then update the Help template accordingly; one could use this to update the Help or FAQ template
+
+### cronjob
+
+add a new cronjob to the root user (because we need to run the script with *sudo*, because of `sendmail`); eg:
+
+```
+sudo crontab -e
+```
+
+and 
+
+```
+SHELL=/bin/bash
+ 
+# */9 * * * * cd </path/to/folder/script> && /bin/bash parse-email /var/spool/mlmmj/<list>
+```
+
+the above line runs the `parse-email` script command every 9 minutes. doing `cd` at the beginning is useful so we don't need to write absolute paths in any of the scripts (mostly when reading and writing to the `moderation` folder and the dot-helper files).
+
+we set the `SHELL` environment variable cause cronjob is not aware of that. similarly, the sendmail command is set as a full path in the `parse-email` script (eg, `usr/sbin/sendmail`), for the same reason.
+
+### mlmmj list configuration
 
 following, custom *control* settings in use for this mailing list (eg `/var/spool/mlmmj/<list>/control`, see [docs](http://mlmmj.org/docs/tunables/)):
 
