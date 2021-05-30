@@ -24,13 +24,18 @@ if [ "$MOD_N" == "0" ]; then
 
     if [ "$CHOSEN_SIZE" == "0" ]; then
 
-      echo $GAME_OVER
+      # check if game-over email was sent already
+      if [ -e ./.game-over ]; then
 
-      # read moderator email list from file and break multiline text into one line
-      # (this is how `mailx` receives multiple recipients
-      MODERATORS=$(tr '\n' ' ' < "$LIST_PATH/control/owner")
+	exit 1
 
-      echo $GAME_OVER | mailx -a "From: $LIST_SENDER" -s "$LIST_PREFIX Game Over" $MODERATORS
+      else
+
+      	echo $GAME_OVER 
+	touch ./.game-over
+      	echo $GAME_OVER | mailx -a "From: $LIST_SENDER" -s "$LIST_PREFIX Game Over" $MODERATORS
+
+      fi
 
     else
       # something might have happen, eg contributor did not send email within
