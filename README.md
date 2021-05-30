@@ -19,6 +19,11 @@ problems:
 
 ## usage
 
+first run `./init` to create:
+
+  - a file `.members` (tracking chosen subscribers)
+  - a folder `moderation`, where incoming emails landing in `<mlmmj>/<lists>/moderation` are being moved to so to clear the queu for `mlmmj`
+
 run parse-email with arg <full path to mlmmj list>, eg:
 
 ```
@@ -27,14 +32,9 @@ sudo ./parse-email /var/spool/mlmmj/filesha
 
 ahem, running with sudo because need to interact with `mlmmj` files and using postfix's `sendmail`. maybe there's a better way, dunno — big noob here.
 
-the `init` script (called in `parse-email`), creates
-
-  - a file `.members` (tracking chosen subscribers)
-  - a folder `moderation`, where incoming emails landing in `<mlmmj>/<lists>/moderation` are being moved to so to clear the queu for `mlmmj`
-
 ## setup
 
-the `init` script is called the first time the program runs (`./parse-email`). besides:
+run `./init` before calling the main program (`parse-email`). then:
 
   - copy and rename `.list-sender.sample` to `.list-sender`, and set the desired email name and address
   - the `templates/` folder contains an example of mlmmj's Help template: this template is used by `get-subject-line` to update the list of "shared file-sharing methods"; all it does, is grepping through all the email received and retrieve the Subject line of each, then update the Help template accordingly; one could use this to update the Help or FAQ template

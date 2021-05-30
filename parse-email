@@ -6,11 +6,10 @@ LIST_NAME=$(basename $LIST_PATH)
 LIST_SENDER=$(<./.list-sender)
 LIST_PREFIX=$(<$LIST_PATH/control/prefix)
 
-GAME_OVER="game over! all subscribers have been chosen as list contributors!"
 
-# init
-# this initializes the program only if necessary
-./init
+GAME_OVER="game over! all subscribers have been chosen as list contributors!"
+ERROR_CHAIN="An error happened; the chain order broke probably due to a mismatch in the .member list; please check!"
+ERROR_NOPOST="No email has been received yet, run parse-email after a message has been posted to the list"
 
 # check if there's any email held in /moderation
 # we could check if $EMAIL_FN is an empty string,

@@ -1,13 +1,19 @@
 #!/bin/bash
 
+# init: remove existing data and initialize new game-session
+
 # create file to keep track of chosen members
-if [ ! -f ./.members ]; then
+if [ ! -e ./.members ]; then
   touch ./.members
+else 
+  rm ./.members && touch ./.members
 fi
 
 # create moderation folder where to move emails
 # from `<mlmmj>/<list>/moderation`
 if [ ! -d ./moderation ]; then
   mkdir ./moderation
+else 
+  rm -rf ./moderation && mkdir ./moderation
 fi
 
