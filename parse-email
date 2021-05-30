@@ -44,9 +44,17 @@ if [ "$MOD_N" == "0" ]; then
       # send message to next chosen contributor, and pray the gods
 
       EMAIL_FN=$(ls -t "./moderation" | head -n1)
-      EMAIL_PATH="./moderation/$EMAIL_FN"
+      if [ -z "$EMAIL_FN" ]; then
 
-      MEMBERS_LAST=$(tail -n1 .members)
+	echo "$ERROR_NOPOST"
+	echo $"$ERROR_NOPOST" | mailx -a "From: $LIST_SENDER" -s "$LIST_PREFIX Error: no post" $MODERATORS
+
+	exit 1
+
+      else 
+        EMAIL_PATH="./moderation/$EMAIL_FN"
+
+        MEMBERS_LAST=$(tail -n1 .members)
      
       # pick next contributor
       CONTRIBUTOR_NEXT=$(./pick-random-address $LIST_NAME)
