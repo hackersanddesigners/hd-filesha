@@ -6,6 +6,9 @@ LIST_NAME=$(basename $LIST_PATH)
 LIST_SENDER=$(<./.list-sender)
 LIST_PREFIX=$(<$LIST_PATH/control/prefix)
 
+# read moderator email list from file and break multiline text into one line
+# (this is how `mailx` receives multiple recipients
+MODERATORS=$(tr '\n' ' ' < "$LIST_PATH/control/owner")
 
 GAME_OVER="game over! all subscribers have been chosen as list contributors!"
 ERROR_CHAIN="An error happened; the chain order broke probably due to a mismatch in the .member list; please check!"
@@ -91,7 +94,7 @@ else
     MEMBERS_LAST=$(tail -n1 .members)
     FROM=$(sed -n 's/^From:.*<\(.*\)>$/\1/p' $EMAIL_PATH)
 
-    SENDER=$(less "$LIST_PATH/control/listaddress")
+    SENDER=$(<"$LIST_PATH/control/listaddress")
 
     # check if $MEMBERS_LAST is empty string (eg no contributor has been chosen yet)
     if [ -z "$MEMBERS_LAST" ]; then
@@ -100,6 +103,9 @@ else
 	# by checking list of chosen members
       	CHOSEN=$(<./.members)    
       	CHOSEN_SIZE=${#CHOSEN[@]}
+
+	echo "CHOSEN => $CHOSEN"
+	echo "CHOSEN_SIZE => $CHOSEN_SIZE"
 
       	# check if list of chosen members equals to 1
       	if [ $CHOSEN_SIZE -eq 1 ]; then
@@ -141,11 +147,6 @@ else
       elif [ "$CONTRIBUTOR_NEXT" == "0" ]; then
 
 	echo $GAME_OVER
-
-	# read moderator email list from file and break multiline text into one line
-	# (this is how `mailx` receives multiple recipients
-      	MODERATORS=$(tr '\n' ' ' < "$LIST_PATH/control/owner")
-
 	echo $GAME_OVER | mailx -a "From: $LIST_SENDER" -s "$LIST_PREFIX Game Over" $MODERATORS
 
       else
@@ -167,12 +168,10 @@ else
      fi
     
     else
-      echo "$MEMBERS_LAST differs from $FROM"
+      ERROR_MISMATCH="$MEMBERS_LAST differs from $FROM. This means the user who sent the email does not match with the latest email being added to .members."
+      echo "$ERROR_MISMATCH"
 
-      # send email error
-      MODERATORS=$(tr '\n' ' ' < "$LIST_PATH/control/owner")
-
-      echo "$MEMBERS_LAST differs from $FROM" | mailx -a "From: $LIST_SENDER" -s "$LIST_PREFIX Error" $MODERATORS
+      echo "$ERROR_MISMATCH" | mailx -a "From: $LIST_SENDER" -s "$LIST_PREFIX Error" $MODERATORS
 
     fi
 
