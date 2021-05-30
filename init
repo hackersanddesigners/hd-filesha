@@ -17,3 +17,5 @@ else
   rm -rf ./moderation && mkdir ./moderation
 fi
 
+# delete .game-over mark
+rm -rf ./.game-over

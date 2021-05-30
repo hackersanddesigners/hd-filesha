@@ -23,6 +23,7 @@ first run `./init` to create:
 
   - a file `.members` (tracking chosen subscribers)
   - a folder `moderation`, where incoming emails landing in `<mlmmj>/<lists>/moderation` are being moved to so to clear the queu for `mlmmj`
+  - and remove `.game-over`, a file that tracks if the GAME OVER email was sent already to the list moderators
 
 run parse-email with arg <full path to mlmmj list>, eg:
 
