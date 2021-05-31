@@ -33,8 +33,9 @@ if [ "$MOD_N" == "0" ]; then
 
       else
 
-      	echo $GAME_OVER 
 	touch ./.game-over
+
+	echo "$GAME_OVER"
       	echo "$GAME_OVER" | mailx -a "From: $LIST_SENDER" -s "$LIST_PREFIX Game Over" $MODERATORS
 
       fi
@@ -146,8 +147,19 @@ else
 
       elif [ "$CONTRIBUTOR_NEXT" == "0" ]; then
 
-	echo $GAME_OVER
-	echo $GAME_OVER | mailx -a "From: $LIST_SENDER" -s "$LIST_PREFIX Game Over" $MODERATORS
+	# check if game-over email was sent already
+      	if [ -e ./.game-over ]; then
+
+	  exit 1
+
+      	else
+
+	  touch ./.game-over
+
+	  echo "$GAME_OVER"
+      	  echo "$GAME_OVER" | mailx -a "From: $LIST_SENDER" -s "$LIST_PREFIX Game Over" $MODERATORS
+
+        fi
 
       else
         echo "Next contributor (3) => $CONTRIBUTOR_NEXT" 
