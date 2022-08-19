@@ -18,6 +18,37 @@ To be clear, this is not an exercise in software nostalgia. Rather a way to find
 
 The game was designed around the idea of the *exquisite corpse* format. This was possible due to some *flexible* part of how emails works: we can rewrite slices of the received / sent message that is then going to be sent to another email address.
 
-Each email sent down the chain would be used as a prompt to pick some material from one's computer and mix it with the received material, or simply add to it. We took the chance to use a fairly established p2p file sync software, adding a time constrain to the game dynamics: the person receiving the email should figure out with the person who sent the message when to be both online, so that the p2p software can work and transfer the data between computers.
+Each email sent down the chain would be used as a prompt to pick some material from one's computer and mix it with the received material, or simply add to it. Each participant would need to pick a way to share files and provide appropriate intructions for interaction.
 
 The mailing list allows to send messages to the list itself: this is usually used to send back useful information about the list (how to subscribe, unsubscribe, change settings, etc) and we bent that to send back the rules of the game and some tips on how to move forward with the game. Hard to say if anyone used these options, but in terms of UI exploration it was a great moment, connecting to more two-way conversational-like type of computer interactions. 
+
+---
+
+(random snippets)
+
+One of the main outcomes of these ruleset was to be able to coordinate in some ways between user A and user B. The time constrain of (in our experiment) 3 days put many people under pressure. 
+
+> 2. it would be nice to show the game in a protocoling way.. as a how-to manual of sorts which could be carried out in different context by different people.
+
+We start by assuming you have a similar enough software setup as described in the repo <put link>. This means:
+
+- having access to an email server (could be on a VPS, on your laptop, on a single board computer, etc) <put link to article?>
+- having installed the `mlmmj` mailing list software (see guide on H&D wiki, <upload article and put link>)
+- following the README in the hd-filesha repo to setup a new list for the game (<not correct>)
+
+This is a chain-based game, so the more people who join it, the better. Eg, at least 3 people. Since we setup a new list in the mailing list software, we can use that to let interested people join the game. 
+
+As a matter of fact, this means that if you started the game and someone new will join the list during it, they will be part of the game process as much as anyone else (because the game script reads from the list of subscribers each and every time when doing a new action / next step in the game). Of course, you can decide to close subscriptions to the list too.
+
+The game is based on the *exquisite corpse* format: someone initiates a collective action (usually a drawing or some writing), and passes it on. The next person will pick it up, without looking at what has been done previously, and add to it. And so on. The final outcome is the product of a collective process.
+
+The type of action to perform during the game can be anything that fits the constraints of sending emails to each other. For our first experiment we went with the file sharing option:
+
+- user A picks a (series of) file and a way to share them, then send an email to the mailing list address with instructions on how to get those files
+- the mailing list picks a random email address (user B) part of the list and send them user A's email
+- user B has x amount of time to obtain those files, pick a file sharing technique and a way on how to add or subtract to the files received from user A
+- and so on
+
+By default no user B knew from whom the email instruction came from, except in those cases where the file sharing technique required to interact with each other (eg when using a p2p file synchronization software) — and also in those cases, a pseudonym could be used.
+
+The element of time is quite important. You can play the game across 3 weeks or in 10 minutes. The tick of the mailing list sending the next email influences much of the gameplay: how quick you should react and which eventual problem does your file sharing technique bring to the table (mutual coordination, file upload / download too slow, etc).
