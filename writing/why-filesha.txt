@@ -1,0 +1,23 @@
+# why fileSHA
+
+> 1. reflects on the motivation/fascination behind file-sharing as a purposeful activity as well as artistic, experimental non-solutionist way of discussing and challenging dogmas around information exchange online. 
+
+> 500 words max
+
+the fileSHA mailing-list project was born out of a personal curiosity and fascination with mailing-lists. the frustration in the last 5-10 years for contributing to a certain online community, and at some point finding out how that software does not exist anymore (website is down, was being sold) has become much more tangible when during the covid-19 pandemic way more people jumped into online communities.
+
+a deeper connection with mailing lists, comes from my endless fascination for a piece of software called `git`. this is what propelled the Linux project to be a viable, internet based, multiplayer effort. `git` uses emails as the main format to collaborate on a project, which means mailing list. looking up on the www for examples of old mailing-list archives, i found [The cryptography archives](https://www.metzdowd.com/pipermail/cryptography/).
+
+the list goes back to 1970 (probably a Linux bug), and then up to the beginning of the 2000s. would this have been possible with something like the now (2022) well known Discord software? does this have to do with Discord per se, or with the evolution of the HTTP protocol?
+
+because of this, i dreamt of working with emails and mailing-list, instead of HTTP and websites. what's the UI offered by a mailing-list? how easy is it to join one? which types of interaction can be designed in this space and which etiquette can we use, or stretch, or ignore?
+
+file sharing came into the picture mostly as an easy to pick example to use in order to sketch out a simple email-based game. as much as mailing list has been relegated to mostly FLOSS software projects, file sharing was once big in the 2000s and slowly, due also to improvements in internet bandwidth as well as web-streaming technologies, and now way less so. 
+
+to be clear, this is not an exercise in software nostalgia, rather a way to find possible answers around "what else is possible and available and that we might have forgotten?" kind of quest.
+
+the game was designed around the idea of the *exquisite corpse* format. this was possible due to some flexible part of how emails works: we can rewrite parts of the sent message.
+
+each email sent down the chain would be used as a prompt to pick some material from one's computer and mix it with the received material or simply added to it. we took the chance to use a fairly established p2p file sync software, adding a time constrain to the game dynamics: the person receiving the email should figure out with the person who sent the message when to be both online, so that the p2p software can work and transfer the data between computers.
+
+the mailing list allows to send messages to the list itself: this is usually used to send back useful information about the list (how to subscribe, unsubscribe, change settings, etc) and we bent them to send back the rules of the game and some tips on how to move forward with the game. hard to say if anyone used these options, but in terms of UI exploration it was a great moment, connecting to more two-way conversational-like type of computer interactions. 
