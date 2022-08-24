@@ -20,33 +20,59 @@ These points given, i dreamt of working with the email protocol and mailing-list
 
 We decided to pick file sharing as the activity to carry out in the email-based game as it connects hand-in-hand with another interest of ours: peer2peer computing. Most p2p file-sharing software demands both users to be online at their computer at the same time, which introduces some nice, fun requirement in the context of a non real-time technique like emails: human coordination. Another reason to go with file-sharing is that it points to the access and archivability option of actually exchanging files instead of using cloud-based or streaming software, where instead files are accessed and "live" only online. As much as email are easily copyable, shareable and archivable, file-sharing provides similar capabilities.
 
----
-
-(random snippets)
-
-One of the main outcomes of these ruleset was to be able to coordinate in some ways between user A and user B. The time constrain of (in our experiment) 3 days put many people under pressure. 
-
 > 2. it would be nice to show the game in a protocoling way.. as a how-to manual of sorts which could be carried out in different context by different people.
 
-We start by assuming you have a similar enough software setup as described in the repo <put link>. This means:
 
-- having access to an email server (could be on a VPS, on your laptop, on a single board computer, etc) <put link to article?>
-- having installed the `mlmmj` mailing list software (see guide on H&D wiki, <upload article and put link>)
-- following the README in the hd-filesha repo to setup a new list for the game (<not correct>)
+Following the game in a protocol format . While it's been originally performed using emails, we will try to distill and extract most of its components in a such a way that it can be repeated with a different setup. Eg, the technical constraints can be replaced and chosen at will.
 
-This is a chain-based game, so the more people who join it, the better. Eg, at least 3 people. Since we setup a new list in the mailing list software, we can use that to let interested people join the game. 
+Here the original code repository with instructions: <https://github.com/hackersanddesigners/hd-filesha>.
 
-As a matter of fact, this means that if you started the game and someone new will join the list during it, they will be part of the game process as much as anyone else (because the game script reads from the list of subscribers each and every time when doing a new action / next step in the game). Of course, you can decide to close subscriptions to the list too.
+This is a chain-based game, so the more people who join it, the better. While 3 people would be the minimum, probably 5-6 is a preferred size. 
 
-The game is based on the *exquisite corpse* format: someone initiates a collective action (usually a drawing or some writing), and passes it on. The next person will pick it up, without looking at what has been done previously, and add to it. And so on. The final outcome is the product of a collective process.
+This is an *exquisite-corpse* game, to which we added two more elements:
 
-The type of action to perform during the game can be anything that fits the constraints of sending emails to each other. For our first experiment we went with the file sharing option:
+- semi-randomness of the next player being chosen by the game
+- "secrecy" between the two players exchanging the ongoing outcome
 
-- user A picks a (series of) file and a way to share them, then send an email to the mailing list address with instructions on how to get those files
-- the mailing list picks a random email address (user B) part of the list and send them user A's email
-- user B has x amount of time to obtain those files, pick a file sharing technique and a way on how to add or subtract to the files received from user A
-- and so on
+We also specifically tried to come with an activity to perform during the game that would introduce extra degree of "complexity". For instance, the game ticks at every 72 hours, when a new player is semi-randomly selected from the list. As well as by sometimes choosing, while playing the game, file-sharing techniques that require real-time coordination between participants (eg being online at the computer at the same time or through a certain period of time).
 
-By default no user B knew from whom the email instruction came from, except in those cases where the file sharing technique required to interact with each other (eg when using a p2p file synchronization software) — and also in those cases, a pseudonym could be used.
+The two technologies that we choose are partly or completely asynchronous (file-sharing and emails through a mailing list), which helps to create friction within a linear time framework.
 
-The element of time is quite important. You can play the game across 3 weeks or in 10 minutes. The tick of the mailing list sending the next email influences much of the gameplay: how quick you should react and which eventual problem does your file sharing technique bring to the table (mutual coordination, file upload / download too slow, etc).
+This is the list of rules:
+
+- setup a way for people interested in the game to join
+
+In our case the list remained open also while the game was being played out, meaning that effectively someone could join during the game, both extending the game duration as well as being [^semi-randomly] chosen by the game to be the next participant
+
+[^Semi-randomly]: By this we mean that the game would pick someone from the list of participants who was not being already chosen. Plus, in a computer system, there seems to be only semi-randomness as an option anyway.
+
+- setup a system to randomly pick the next player
+
+We did it via computer software using a semi-random function. Further rules can be added to it, for instance did the participant join early or later on in the process.
+
+- setup a game clock and set a time interval for it
+
+We opted for 72 hours in a software asynchronous setting, and it turned out to be too little time to perform the player's tasks: receive the file; add, remove and / or extend it; pick a file-sharing method; share it to the next player. 
+
+- pick a way for the two selected players to exchange information privately
+
+We broke the main benefit of using a mailing-list software, which is to send to everyone in the list the same message posted to the list address.  We also exploited email software by re-writing the email address of the sender before manually sending the email posted to the list to the next randomly chosen player.
+
+- choose an exchange activity to do during the game
+
+We went with file-sharing for reasons explained above. The fact that it could be interpreted quite widely, added more unforeseen elements to the gameplay which we though could add to the overall strict linear-time experience.
+
+- kick-off the game as the host
+
+Start the chain of "exchange-activity" transformation by setting an interesting example. Eg, if file-sharing, pick a file and way of sharing that can stir fun engagement.
+
+- keep participants up to date
+
+If the clock interval is large, eg at least bigger than a few hours total of gameplay, it might be a good idea to keep everyone posted about what's going on, while they are not actively playing. Of course if this happens in the same room, than it's probably not necessary.
+
+
+[more rules?]
+
+[I'll think of a closing point]
+
+[Anja suggested also images]
