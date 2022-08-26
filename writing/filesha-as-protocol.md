@@ -354,4 +354,4 @@ A closing remark on the often critiqued (or just scorned off) set of hydraulic m
 
 Zero News Datapool, Manuel DeLanda, The Geology Of Morals. Source: <http://www.t0.or.at/delanda/geology.htm>
 
-Software architectures like those of a mailing-list allow for *necroposting*: no shame in resurrecting 6 months or 10 years old conversations, because it’s at best experienced as a collective sedimentation process which belongs as much to you if you find your own entry point in these past five minutes as to those who wrote about it for months a decade earlier. Rivers as computers!
+Software architectures like those of a mailing-list allow for *necroposting*: no shame in resurrecting 6 months or 10 years old conversations, because it’s at best experienced as a collective sedimentation process which belongs as much to you if you find your own entry point in these past five minutes as to those who wrote about it for months a decade earlier. Computers as rivers!
