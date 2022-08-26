@@ -149,7 +149,7 @@ If the clock interval is large, eg at least bigger than a few hours of total gam
 
 - provide ways to ask for “help“ or access the rules of the game at any time
 
-One side effect of using a mailing-list software was to be able to use the standard feature to ask for “help / info“ about the list: eg, how to unsubscribe, how to access previous messages, etc. We used that info text to provide the basic rules of the game instead as well as which files have been shared so far. Far from the help screen of a videogame, but pointing to the same direction.
+One side effect of using a mailing-list software was to be able to use the standard feature of asking for “help / info“ about the list: eg, how to unsubscribe, how to access previous messages, etc. We used that info text to provide the basic rules of the game instead, as well as which files have been shared so far. Though not like the help screen of a videogame, we were pointing to the same direction.
 
 ```
 #!/bin/bash
@@ -346,4 +346,12 @@ fi
 
 caption: `parse-email`. instructions to read an incoming email held in moderation.
 
-[ I'll think of a closing point ]
+A closing remark on the often critiqued (or just scorned off) set of hydraulic metaphors used in computer programming by “engineers“ to talk about software that recontextualizes that domain specific language:
+
+> Geologists have uncovered one such mechanism: rivers acting as veritable hydraulic computers (or at least, sorting machines). Rivers transport rocky materials from their point of origin (a previously created mountain subject to erosion or weathering) to the place in the ocean where these materials will accumulate. In this process, pebbles of variable size, weight and shape tend to react differently to the water transporting them.
+> [...]
+> Once the raw materials have been sorted out into more or less homogenous groupings deposited at the bottom of the sea (that is, once they have become sedimented), a second operation is necessary to transform these loose collections of pebbles into an entity of a higher scale: a sedimentary rock. This operation consists in cementing the sorted components together into a new entity with emergent properties of its own, that is, properties such as overall strength and permeability that cannot be ascribed to the sum of the individual pebbles.
+
+Zero News Datapool, Manuel DeLanda, The Geology Of Morals. Source: <http://www.t0.or.at/delanda/geology.htm>
+
+Software architectures like those of a mailing-list allow for *necroposting*: no shame in resurrecting 6 months or 10 years old conversations, because it’s at best experienced as a collective sedimentation process which belongs as much to you if you find your own entry point in these past five minutes as to those who wrote about it for months a decade earlier. Rivers as computers!
